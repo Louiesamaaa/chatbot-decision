@@ -1,0 +1,22 @@
+name: chatbot-decision
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+  # data + basic ML
+  - numpy
+  - pandas
+  - scikit-learn
+  - matplotlib
+  - jupyter
+  - pip:
+      # reinforcement learning
+      - gymnasium
+      - stable-baselines3
+      - sb3-contrib          
+      - sentence-transformers 
+      # experiment tracking
+      - wandb 
