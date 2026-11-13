@@ -24,13 +24,16 @@ class IntentClassifier:
             LogisticRegression(C=5.0, max_iter=2000, random_state= 6)
         )
 
-    def fit(self,convos, max_msgs = 3):
+    def fit(self,convos, max_msgs = 3, label_fn = None):
+
+        if label_fn is None:
+            label_fn = lambda c: c["scenario"]["flow"]
 
         texts, labels = [], []
         for c in convos:
             for k in range(1, max_msgs + 1):
                 texts.append(customer_messages(c, k))
-                labels.append(c["scenario"]["flow"])
+                labels.append(label_fn(c))
         self.model.fit(texts, labels)
 
         return self
@@ -42,10 +45,13 @@ class IntentClassifier:
 
         return self.model.classes_[best], float(probs[best])
 
-    def evaluate(self,convos,k):
+    def evaluate(self,convos,k, label_fn = None):
+
+        if label_fn is None:    
+            label_fn = lambda c: c["scenario"]["flow"]
 
         texts = [customer_messages(c, k) for c in convos]
-        labels = np.array([c["scenario"]["flow"] for c in convos])
+        labels = np.array([label_fn(c) for c in convos])
         probs = self.model.predict_proba(texts)
         preds = self.model.classes_[np.argmax(probs, axis=1)]
 

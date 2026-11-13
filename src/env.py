@@ -48,7 +48,7 @@ class Handoffenv(gym.Env):
         self.intent_names = list(intent_names)
         self.n_intents = len(self.intent_names)
         self.max_turns = max_turns
-        self.answer_sucess_prob = answer_success_prob
+        self.answer_success_prob = answer_success_prob
 
 
         self.solvable_ratio = solvable_ratio
